@@ -1,6 +1,8 @@
 //importing neccessary modules and packages
 import express from "express";
-import  ProductRouter from "./src/Features/Products/ProductRoutes/productsRoutes.js"
+import bodyParser from "body-parser";
+import  ProductRouter from "./src/Features/Products/ProductRoutes/productsRoutes.js";
+
 
 
 //creating a server
@@ -9,6 +11,11 @@ const app=express();
 //defining a port
 const port=3000;
 
+
+app.use(express.static("Public"));
+//parsing the user data using bodyparser and json
+// app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 //Handling Routes for Products Requests
 app.use("/api/products",ProductRouter);
 
