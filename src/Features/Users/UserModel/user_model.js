@@ -20,8 +20,8 @@ export default class Users{
             password,
             typeOfUser
         );
-        const result=usersArray.push(newUser);
-        return result;
+        usersArray.push(newUser);
+        return newUser;
     };
 
     static signInUser({email,password}){
@@ -31,6 +31,11 @@ export default class Users{
                 (user._email==email && user._password==password)
             )
         });
+        return result;
+    }
+
+    static userAuthorized(email,password){
+        const result=usersArray.find(user=> email==user._email && password==user._password);
         return result;
     }
 }

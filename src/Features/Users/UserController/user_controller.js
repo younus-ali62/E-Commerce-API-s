@@ -4,10 +4,11 @@ import Users from "../UserModel/user_model.js";
 export default class UserController{
 
     signUpController(req,res){
-
+        // console.log(req.headers);
         const result=Users.signUpUser(req.body);
+    
         if(result){
-          return  res.status(201).send("User added successfully")
+          return  res.status(201).send(result);
         }else{
           return  res.status(404).send("Something went wrong")
         }

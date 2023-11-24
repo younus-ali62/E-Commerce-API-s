@@ -3,7 +3,7 @@ import multer from "multer";
 
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
-        console.log('destination')
+        // console.log('destination')
         cb(null,"Public/");
         
     },
@@ -16,5 +16,5 @@ const storage=multer.diskStorage({
     }
     
 });
-console.log("inside file uploaded")
+// console.log("inside file uploaded")
 export const fileUpload=multer({storage:storage});
