@@ -38,6 +38,11 @@ export default class Users{
         const result=usersArray.find(user=> email==user._email && password==user._password);
         return result;
     }
+
+    static validUser(userId){
+        const result=usersArray.find(user=> (user._id == userId));
+        return result;
+    }
 }
 
 const usersArray=[];

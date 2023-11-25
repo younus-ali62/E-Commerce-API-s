@@ -11,6 +11,6 @@ productRouter.get("/",productController.getAllProducts);
 productRouter.get("/id",productController.getOneProduct);
 productRouter.post("/",fileUpload.single("imgUrl"),productController.addProduct);
 productRouter.get("/filterProducts",productController.getAllFilterProducts);
-
+productRouter.post("/rate",productController.rateProduct);
 export default productRouter;
 

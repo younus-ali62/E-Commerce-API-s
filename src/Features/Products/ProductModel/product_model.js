@@ -1,3 +1,5 @@
+import Users from "../../Users/UserModel/user_model.js";
+
 export default class Products {
   constructor(
     _id,
@@ -50,7 +52,41 @@ export default class Products {
    return result;
   };
   
+  static rateProduct(userId,productId,rating){
 
+     //check userId and productId is valid or not
+     //userId validaion
+     const userResult=Users.validUser(userId);
+     if(!userResult){
+      return ({success:"failure",msg:"User is not found"});
+     }
+
+     //productId validation
+     const productResult=products.find(product=> product._id == productId);
+     if(!productResult){
+       return ({success:"failure",msg:"Product is not found"});
+     }
+
+    //now check there is rating array is present in product or not
+    if(!productResult.rating){
+      productResult.rating=[];
+      productResult.rating.push({userId:userId,rating:rating});
+      console.log("successfull")
+    }else {
+      //now check user rating is already available
+      console.log("fine")
+      const existingRatingIndex=productResult.rating.findIndex(r=>r.userId==userId);
+      if(existingRatingIndex>=0){
+        productResult.rating[existingRatingIndex]={
+          userId:userId,
+          rating:rating
+        }
+      }else{
+        productResult.rating.push({userId:userId,rating:rating});
+      }
+    }
+     
+  }
 }
 
 const products = [
@@ -63,4 +99,14 @@ const products = [
     ["S", "M", "L"],
     "https://m.media-amazon.com/images/I/61K5aYS5eNL._SY300_SX300_QL70_FMwebp_.jpg"
   ),
+
+  new Products(
+    2,
+    "Ice Cream",
+    "strawberry",
+    "category2",
+    20,
+    [],
+    "https://www.allrecipes.com/thmb/pH8hoFfytcOT9XVK1DSmxv3L0OU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/140877-easy-eggless-strawberry-ice-cream-ddmfs-3x4-1-092e4d11b59049c8b3843014ea3c57f2.jpg"
+  )
 ];
