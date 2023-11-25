@@ -34,7 +34,7 @@ export default class ProductController{
     };
 
     getAllFilterProducts(req,res){
-        // console.log("inside filter");
+       
         const minPrice=req.query.minPrice;
         const maxPrice=req.query.maxPrice;
         const category=req.query.category;

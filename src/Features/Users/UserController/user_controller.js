@@ -1,5 +1,6 @@
 
 import Users from "../UserModel/user_model.js";
+import jsonwebtoken from "jsonwebtoken";
 
 export default class UserController{
 
@@ -16,8 +17,13 @@ export default class UserController{
 
     signInController(req,res){
         const result=Users.signInUser(req.body);
+    
         if(result){
-          return  res.status(200).send("User is login successfully")
+         const token=jsonwebtoken.sign({
+          userId:result._id,
+          userEmail:result._email
+         },"a7eb0918c0eebd62760828edcb66071d8e2e8e9d12df0657f8d6740fb045bb9c",{expiresIn:"10h"});
+         return res.status(200).send(token);
         }else {
           return  res.status(404).send("Incorrect Credentials or User is not exist!")
         }

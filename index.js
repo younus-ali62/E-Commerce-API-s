@@ -5,6 +5,8 @@ import  ProductRouter from "./src/Features/Products/ProductRoutes/productsRoutes
 import userRouter from "./src/Features/Users/UserRoutes/user_routes.js";
 import { basic_authorization } from "./src/Middlewares/Basic_Authentication/basic_authentication.js";
 
+import { jwtAuthorization } from "./src/Middlewares/JWT Middleware/jwt_middleware.js";
+
 //creating a server
 const app=express();
 
@@ -18,7 +20,7 @@ app.use(express.static("Public"));
 app.use(bodyParser.json());
 
 //Handling Routes for Products Requests
-app.use("/api/products",basic_authorization, ProductRouter);
+app.use("/api/products",jwtAuthorization, ProductRouter);
 
 //Handling Routes for Users Requests
 app.use("/api/users",userRouter);
