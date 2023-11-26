@@ -16,5 +16,5 @@ const storage=multer.diskStorage({
     }
     
 });
-// console.log("inside file uploaded")
+
 export const fileUpload=multer({storage:storage});

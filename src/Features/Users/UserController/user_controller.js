@@ -1,11 +1,14 @@
 
 import Users from "../UserModel/user_model.js";
 import jsonwebtoken from "jsonwebtoken";
-
+const users=Users.getAllUsers();
 export default class UserController{
-
+ 
+    getAllUsers(req,res){
+     return res.status(200).send(users);
+    }
     signUpController(req,res){
-        // console.log(req.headers);
+     
         const result=Users.signUpUser(req.body);
     
         if(result){
@@ -26,7 +29,7 @@ export default class UserController{
          return (
          res
          .status(200)
-         .cookie("jwtToken",token,{ maxAge: 1 * 60 *  1000, httpOnly: false })
+         .cookie("jwtToken",token,{ maxAge: 10 * 60 *  1000, httpOnly: false })
          .json({ status: "success", msg: "login successfull", token })
 
          )

@@ -45,4 +45,7 @@ export default class Users{
     }
 }
 
-const usersArray=[];
+const usersArray=[
+
+    new Users(1,"Younus","email@gmail.com","Asdfgh","customer")
+];

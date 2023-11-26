@@ -3,6 +3,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import  ProductRouter from "./src/Features/Products/ProductRoutes/productsRoutes.js";
 import userRouter from "./src/Features/Users/UserRoutes/user_routes.js";
+import cartRouter from "./src/Features/Cart/CardRouter/cart_routes.js";
 import { basic_authorization } from "./src/Middlewares/Basic_Authentication/basic_authentication.js";
 
 import { jwtAuthorization } from "./src/Middlewares/JWT Middleware/jwt_middleware.js";
@@ -26,6 +27,9 @@ app.use("/api/products",jwtAuthorization, ProductRouter);
 
 //Handling Routes for Users Requests
 app.use("/api/users",userRouter);
+
+//handling Routes for card requests
+app.use("/api/cart",jwtAuthorization,cartRouter);
 //handling a default request from client
 app.get("/",(req,res)=>{
     res.send("Welcome to my E-Commerce API");

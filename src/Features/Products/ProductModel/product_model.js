@@ -71,10 +71,10 @@ export default class Products {
     if(!productResult.rating){
       productResult.rating=[];
       productResult.rating.push({userId:userId,rating:rating});
-      console.log("successfull")
+     
     }else {
       //now check user rating is already available
-      console.log("fine")
+    
       const existingRatingIndex=productResult.rating.findIndex(r=>r.userId==userId);
       if(existingRatingIndex>=0){
         productResult.rating[existingRatingIndex]={
@@ -86,6 +86,9 @@ export default class Products {
       }
     }
      
+  }
+  static validProductId(id){
+    return products.find(product=>product._id==id);
   }
 }
 
@@ -108,5 +111,14 @@ const products = [
     20,
     [],
     "https://www.allrecipes.com/thmb/pH8hoFfytcOT9XVK1DSmxv3L0OU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/140877-easy-eggless-strawberry-ice-cream-ddmfs-3x4-1-092e4d11b59049c8b3843014ea3c57f2.jpg"
+  ),
+ new Products (
+    3,
+    "Tumbler",
+    "Highball Glasses Clear Iced Tea and Glasses for Drinking Cocktail, Juice, Milkshake, Coke, Soda, Lassi, Dishwasher Safe Set of 6",
+    "category1",
+    497,
+    ["S", "M", "L"],
+    "https://m.media-amazon.com/images/I/61K5aYS5eNL._SY300_SX300_QL70_FMwebp_.jpg"
   )
 ];
