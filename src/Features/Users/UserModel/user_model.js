@@ -43,6 +43,10 @@ export default class Users{
         const result=usersArray.find(user=> (user._id == userId));
         return result;
     }
+
+    static userExist(email){
+        return usersArray.find(user=> email==user._email);
+    }
 }
 
 const usersArray=[

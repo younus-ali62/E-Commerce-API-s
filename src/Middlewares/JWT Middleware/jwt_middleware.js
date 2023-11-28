@@ -2,7 +2,8 @@ import jsonwebtoken from "jsonwebtoken";
 
 export const jwtAuthorization=(req,res,next)=>{
     // read the token
-    const jwtToken=req.cookies.jwtToken;
+    // const jwtToken=req.cookies.jwtToken;
+    const jwtToken=req.headers.authorization;
     if(jwtToken){
         //verify token
         try{

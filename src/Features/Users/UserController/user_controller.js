@@ -8,33 +8,32 @@ export default class UserController{
      return res.status(200).send(users);
     }
     signUpController(req,res){
-     
-        const result=Users.signUpUser(req.body);
-    
-        if(result){
-          return  res.status(201).send(result);
+        const userAlreadyExist=Users.userExist(req.body.email);
+        if(userAlreadyExist){
+            return res.status(409).send("User already exist");
         }else{
-          return  res.status(404).send("Something went wrong")
+            const result=Users.signUpUser(req.body);
+            return  res.status(201).send(result);
         }
+      
     }
 
     signInController(req,res){
         const result=Users.signInUser(req.body);
-    
+        
         if(result){
          const token=jsonwebtoken.sign({
           userId:result._id,
           userEmail:result._email
-         },"a7eb0918c0eebd62760828edcb66071d8e2e8e9d12df0657f8d6740fb045bb9c",{expiresIn:"10h"});
+         },"a7eb0918c0eebd62760828edcb66071d8e2e8e9d12df0657f8d6740fb045bb9c",{expiresIn:300});
          return (
          res
          .status(200)
-         .cookie("jwtToken",token,{ maxAge: 10 * 60 *  1000, httpOnly: false })
          .json({ status: "success", msg: "login successfull", token })
 
          )
         }else {
-          return  res.status(404).send("Incorrect Credentials or User is not exist!")
+          return  res.status(404).send("User is not found")
         }
     }
 }
