@@ -1,5 +1,6 @@
 
 import Products from "../ProductModel/product_model.js";
+import ApplicationError from "../../../Error_Handler/error_handler.js";
 const products=Products.getProducts();
 export default class ProductController{
    
@@ -20,23 +21,24 @@ export default class ProductController{
 
     rateProduct(req,res){
     
-       const {userId,productId,rating}=req.query;
-       const error=Products.rateProduct(userId,productId,rating);
-       if(error){
-        return res.status(404).send(error);
-       }else {
-        return res.status(200).send("Rating has been added");
-       }
+         const {userId,productId,rating}=req.query1;
+         Products.rateProduct(userId,productId,rating);
+         return  res.status(201).send("Product rated successfully")
     }
 
     getOneProduct(req,res){
+        console.log("inside getone product")
         const requiredId=req.query.id;
+        // console.log(requiredId);
+        // const requiredId=req.params.id;
+        
         const result= Products.getOneProductModel(requiredId);
         if(result){
-            res.status(200).send(result);
+           return  res.status(200).send(result);
 
         }else {
-            res.status(404).send("Product with this id not found");
+            throw new ApplicationError("Product not found",404)
+           
         }
     };
 

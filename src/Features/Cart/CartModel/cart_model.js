@@ -1,5 +1,6 @@
 import Products from "../../Products/ProductModel/product_model.js";
 import Users from "../../Users/UserModel/user_model.js";
+import ApplicationError from "../../../Error_Handler/error_handler.js";
 export default class CartModel {
   constructor(_id, _productId, _userId, _quantity) {
     this._id = _id;
@@ -13,12 +14,12 @@ export default class CartModel {
     const validProductId = Products.validProductId(productId);
 
     if (!validProductId) {
-      return { success: false, msg: "Product is not found" };
+      throw new ApplicationError("Product is not found",404)//404-> not found
     }
 
     const validUserId = Users.validUser(userId);
     if (!validUserId) {
-      return { success: false, msg: "User is not found" };
+      throw new ApplicationError("User is not found",404)
     }
 
      //checking card is already created for user or not pending
@@ -41,21 +42,23 @@ export default class CartModel {
     const validUserId=Users.validUser(userId);
  
     if(!validUserId){
-        return ({success:false,msg:"User is not found"});
+      throw new ApplicationError("User is not found",404)
+     
     }
     const validCartId=cartArray.find(cart=>cart._id==cartItemId);
   
     if(!validCartId){
-      return ({success:false,msg:"Cart is not found"});
+      throw new ApplicationError("Cart is not found");
+   
     }
 
     const existingCartIndex=cartArray.findIndex(cart=> cart._id==cartItemId && cart._userId==userId);
-    console.log(existingCartIndex);
+    
     if(existingCartIndex>=0){
       cartArray.splice(existingCartIndex,1);
       return ({success:true,msg:"cart is deleted"})
     }else{
-      return ({success:false,msg:"Oops! It seems like you're trying to delete a cart that you didn't create."});
+      throw new ApplicationError("You do not have permission to delete this cart.",403)//forbidden (403 status code)
     }
    
   }

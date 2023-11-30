@@ -1,6 +1,7 @@
 
 import Users from "../UserModel/user_model.js";
 import jsonwebtoken from "jsonwebtoken";
+import ApplicationError from "../../../Error_Handler/error_handler.js";
 const users=Users.getAllUsers();
 export default class UserController{
  
@@ -8,9 +9,10 @@ export default class UserController{
      return res.status(200).send(users);
     }
     signUpController(req,res){
+     
         const userAlreadyExist=Users.userExist(req.body.email);
         if(userAlreadyExist){
-            return res.status(409).send("User already exist");
+            throw new ApplicationError("User already exist",409)
         }else{
             const result=Users.signUpUser(req.body);
             return  res.status(201).send(result);
@@ -25,7 +27,7 @@ export default class UserController{
          const token=jsonwebtoken.sign({
           userId:result._id,
           userEmail:result._email
-         },"a7eb0918c0eebd62760828edcb66071d8e2e8e9d12df0657f8d6740fb045bb9c",{expiresIn:300});
+         },"a7eb0918c0eebd62760828edcb66071d8e2e8e9d12df0657f8d6740fb045bb9c",{expiresIn:2000});
          return (
          res
          .status(200)
@@ -33,7 +35,8 @@ export default class UserController{
 
          )
         }else {
-          return  res.status(404).send("User is not found")
+      
+        throw new ApplicationError("User not found",404);
         }
     }
 }
