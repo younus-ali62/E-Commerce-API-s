@@ -82,3 +82,8 @@
 {"inputData":{},"inputUrl":"/api/products/rate?userId=1&productId=1&rating=5","level":"info"}
 {"inputData":{},"inputUrl":"/api/products/rate?userId=10&productId=1&rating=5","level":"info"}
 {"inputData":{},"inputUrl":"/api/products/rate?userId=10&productId=1&rating=5","level":"info"}
+{"inputData":{},"inputUrl":"/","level":"info","message":"Sat Dec 09 2023 21:58:29 GMT+0530 (India Standard Time)"}
+{"inputData":{},"inputUrl":"/api/users","level":"info","message":"Sat Dec 09 2023 21:58:38 GMT+0530 (India Standard Time)"}
+{"inputData":{"email":"ali@gmail.com","name":"Younus Ali","password":"junior","typeOfUser":"seller"},"inputUrl":"/api/users","level":"info","message":"Sat Dec 09 2023 22:00:15 GMT+0530 (India Standard Time)"}
+{"inputData":{},"inputUrl":"/api/users","level":"info","message":"Mon Dec 11 2023 21:29:42 GMT+0530 (India Standard Time)"}
+{"inputData":{"email":"ali@gmail.com","name":"Ali","password":"ali","typeOfUser":"customer"},"inputUrl":"/api/users","level":"info","message":"Mon Dec 11 2023 21:31:08 GMT+0530 (India Standard Time)"}

@@ -11,6 +11,7 @@ import { basic_authorization } from "./src/Middlewares/Basic_Authentication/basi
 import { jwtAuthorization } from "./src/Middlewares/JWT Middleware/jwt_middleware.js";
 import loggerMiddleware from "./src/Middlewares/loggerMiddleware/logger_middleware.js";
 import ApplicationError from "./src/Error_Handler/error_handler.js";
+import {connectToMongodb} from "./src/config/mongodb.js";
 
 //read and parse json file
 const apiDocs = JSON.parse(
@@ -54,9 +55,10 @@ app.use((err,req,res,next)=>{
 
   //handling client errors
   if(err instanceof ApplicationError){
-    res.status(err.statusCode).send(err.message);
+   return res.status(err.statusCode).send(err.message);
   }else{
-    res.status(500).send("something went wrong, please again later!"); //hadnling server error
+   console.log(err);
+   return res.status(500).send("Internal server error, please try again later!"); //hadnling server error
   }
 
 });
@@ -75,6 +77,8 @@ app.use((req,res)=>{
 });
 //Server 
 app.listen(port,()=>{
-    console.log(`Server is listening on port ${port}`)
+  
+    console.log(`Server is listening on port ${port}`);
+    connectToMongodb()
 });
 
