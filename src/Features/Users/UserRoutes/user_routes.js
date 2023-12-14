@@ -5,7 +5,9 @@ const user_controller=new UserController();
 const userRouter=express.Router();
 
 userRouter.get("/",user_controller.getAllUsers);
-userRouter.post("/login",user_controller.signInController);
+userRouter.post("/login",(req,res,next)=>{
+    user_controller.signInController(req,res,next)
+});
 
 // userRouter.get("/signUp",);
 userRouter.post("/register",(req,res,next)=>{

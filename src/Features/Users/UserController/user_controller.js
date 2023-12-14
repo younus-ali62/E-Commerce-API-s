@@ -1,9 +1,10 @@
 import Users from "../UserModel/user_model.js";
 import jsonwebtoken from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import UserRepository from "../UserRepository/userRepository.js";
 import ApplicationError from "../../../Error_Handler/error_handler.js";
 const users = Users.getAllUsers();
-// const userRepo=new UserRepository();
+
 export default class UserController {
   constructor() {
     this.userRepository = new UserRepository();
@@ -16,16 +17,19 @@ export default class UserController {
 
   //controller to handle the register route for user
   async signUpController(req, res, next) {
+    
     try {
       const { name, email, password, typeOfUser } = req.body;
-      const checkingUser = await this.userRepository.existUser(email);
+      const checkingUser = await this.userRepository.findByEmail(email);
       if (checkingUser) {
         throw new ApplicationError("User already exist", 409);
       } else {
-        const newUser = new Users(name, email, password, typeOfUser);
+      
+        const hashedUserPassword = await bcrypt.hash(password, 12);
+        const newUser = new Users(name, email, hashedUserPassword, typeOfUser);
         const result = await this.userRepository.signUpUser(newUser, next);//will return newUser or else undefined
         if (result) {
-          return res.status(201).send(newUser);
+          return res.status(201).send(result);
         }
       }
     } catch (err) {
@@ -35,23 +39,32 @@ export default class UserController {
   }
 
   //controller method to signin the user
-  signInController(req, res) {
-    const result = Users.signInUser(req.body);
-
-    if (result) {
-      const token = jsonwebtoken.sign(
-        {
-          userId: result._id,
-          userEmail: result._email,
-        },
-        "a7eb0918c0eebd62760828edcb66071d8e2e8e9d12df0657f8d6740fb045bb9c",
-        { expiresIn: 2000 }
-      );
-      return res
-        .status(200)
-        .json({ status: "success", msg: "login successfull", token });
-    } else {
-      throw new ApplicationError("User not found", 404);
+  async signInController(req, res, next) {
+ 
+    try {
+      const user = await this.userRepository.findByEmail(req.body.email);
+      if (!user) {
+        throw new ApplicationError("User not found or Invalid Credentials!",400);
+      } else {
+   
+        const result = await bcrypt.compare(req.body.password, user._password);
+        if (result) {
+          const token = jsonwebtoken.sign(
+            {
+              userId: user._id,
+              userEmail: user._email,
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: 2000 }
+          );
+          return res
+            .status(200)
+            .json({ status: "success", msg: "login successfull", token });
+            
+        }
+      }
+    } catch (err) {
+      next(err);
     }
   }
 }

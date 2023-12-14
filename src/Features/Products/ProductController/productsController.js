@@ -27,10 +27,7 @@ export default class ProductController{
     }
 
     getOneProduct(req,res){
-        console.log("inside getone product")
         const requiredId=req.query.id;
-        // console.log(requiredId);
-        // const requiredId=req.params.id;
         
         const result= Products.getOneProductModel(requiredId);
         if(result){

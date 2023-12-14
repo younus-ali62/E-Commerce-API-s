@@ -1,4 +1,8 @@
-//importing neccessary modules and packages
+//importing neccessary modules and package
+import "./env.js"
+// import dotenv from "dotenv";
+// dotenv.config(); //it will load all the environment variables in application
+
 import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -28,7 +32,8 @@ const port=3000;
 
 //parsing the user data using bodyparser and json
 // app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+app.use(express.json());
 
 app.use(loggerMiddleware);
 //making public folder publicly accessible
@@ -57,7 +62,7 @@ app.use((err,req,res,next)=>{
   if(err instanceof ApplicationError){
    return res.status(err.statusCode).send(err.message);
   }else{
-   console.log(err);
+  //  console.log(err);
    return res.status(500).send("Internal server error, please try again later!"); //hadnling server error
   }
 
