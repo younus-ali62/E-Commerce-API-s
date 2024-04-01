@@ -9,7 +9,7 @@ export const jwtAuthorization=(req,res,next)=>{
         try{
            const payload=jsonwebtoken.verify(jwtToken,process.env.JWT_SECRET) ;
            req.userId=payload.userId;
-           console.log(payload);
+        //    console.log(payload);
         }catch(err){
             throw new ApplicationError("User is Unauthorized!",401)
           

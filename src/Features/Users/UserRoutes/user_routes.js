@@ -11,6 +11,7 @@ userRouter.post("/login",(req,res,next)=>{
 
 // userRouter.get("/signUp",);
 userRouter.post("/register",(req,res,next)=>{
+    
     user_controller.signUpController(req,res,next);
 });
 export default userRouter;

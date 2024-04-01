@@ -2,43 +2,25 @@ import Users from "../../Users/UserModel/user_model.js";
 import ApplicationError from "../../../Error_Handler/error_handler.js";
 export default class Products {
   constructor(
-    _id,
     _productName,
     _description,
     _category,
     _price,
     _sizes,
-    _imageUrl
+    _imageUrl,
+    _id
   ) {
-    this._id = _id;
     this._productName = _productName;
     this._description = _description;
     this._category = _category;
     this._price = _price;
     this._sizes = _sizes;
     this._imageUrl = _imageUrl;
+    this._id = _id;
   }
 
   static getProducts() {
     return products;
-  }
-  static addNewProduct(newProduct, imageName) {
-    const newproduct = new Products(
-      products.length + 1,
-      newProduct.name,
-      newProduct.description,
-      newProduct.category,
-      parseFloat(newProduct.price),
-      newProduct.size.split(","),
-      imageName
-    );
-    const result = products.push(newproduct);
-    return products;
-  }
-
-  static getOneProductModel(id) {
-    const result = products.find((product) => id == product._id);
-    return result;
   }
 
   static filterProductModel(minPrice, maxPrice, category) {

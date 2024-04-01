@@ -1,7 +1,7 @@
 import Users from "../UserModel/user_model.js";
 import jsonwebtoken from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import UserRepository from "../UserRepository/userRepository.js";
+import {UserRepository} from "../UserRepository/userRepository.js";
 import ApplicationError from "../../../Error_Handler/error_handler.js";
 const users = Users.getAllUsers();
 
@@ -28,12 +28,12 @@ export default class UserController {
         const hashedUserPassword = await bcrypt.hash(password, 12);
         const newUser = new Users(name, email, hashedUserPassword, typeOfUser);
         const result = await this.userRepository.signUpUser(newUser, next);//will return newUser or else undefined
+      
         if (result) {
           return res.status(201).send(result);
         }
       }
     } catch (err) {
-      console.log("Error: ", err);
       next(err); // the error will be passed to the global error handler middleware.
     }
   }
