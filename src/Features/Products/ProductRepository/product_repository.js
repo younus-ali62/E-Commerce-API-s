@@ -68,7 +68,7 @@ export class ProductRepository {
       if (category) {
         filterProducts._category = category;
       }
-      console.log(filterProducts);
+   
       const db = getDB();
       const collection = db.collection(this.collection);
       const result = await collection.find(filterProducts).toArray();

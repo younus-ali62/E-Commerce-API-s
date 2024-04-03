@@ -1,15 +1,17 @@
+import { ObjectId } from "mongodb";
 import Products from "../../Products/ProductModel/product_model.js";
 import Users from "../../Users/UserModel/user_model.js";
 import ApplicationError from "../../../Error_Handler/error_handler.js";
-export default class CartModel {
-  constructor(_id, _productId, _userId, _quantity) {
+export class CartModel {
+  constructor( _productId, _userId, _quantity,_id) {
     this._id = _id;
-    this._productId = _productId;
-    this._userId = _userId;
+    this._productId = new ObjectId(_productId);
+    this._userId = new ObjectId(_userId);
     this._quantity = _quantity;
+    this._id=_id;
   }
 
-  static addItems(productId, userId, quantity) {
+   addItems(productId, userId, quantity) {
    
     const validProductId = Products.validProductId(productId);
 
