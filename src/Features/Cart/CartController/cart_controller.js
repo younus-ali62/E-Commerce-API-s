@@ -1,4 +1,5 @@
 import {CartModel} from "../CartModel/cart_model.js";
+import { ObjectId } from "mongodb";
 import ApplicationError from "../../../Error_Handler/error_handler.js";
 import { CartRepository } from "../CartRepository/cart_repository.js";
 export default class CartController {
@@ -9,9 +10,9 @@ export default class CartController {
   //method to add items into cart db
   async addItemsController(req, res) {
     try {
-      const { productId, quantity } = req.body;
+      let { productId, quantity } = req.body;
       const userId = req.userId;
-    
+      productId=new ObjectId(productId);
       const result = await this.cartRepository.addItems(
         productId,
         userId,

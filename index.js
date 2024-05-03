@@ -16,6 +16,8 @@ import { jwtAuthorization } from "./src/Middlewares/JWT Middleware/jwt_middlewar
 import loggerMiddleware from "./src/Middlewares/loggerMiddleware/logger_middleware.js";
 import ApplicationError from "./src/Error_Handler/error_handler.js";
 import {connectToMongodb} from "./src/config/mongodb.js";
+import orderRouter from "./src/Features/Orders/OrderRoutes/order_routes.js";
+import { connectUsingMongoose } from "./src/config/mongoose.js";
 
 //read and parse json file
 const apiDocs = JSON.parse(
@@ -55,6 +57,9 @@ app.use("/api/users",userRouter);
 //handling Routes for card requests
 app.use("/api/cart",jwtAuthorization,cartRouter);
 
+
+//handling routes for place the order
+app.use("/api/orders",jwtAuthorization,orderRouter);
 //error handler at application level
 app.use((err,req,res,next)=>{
 
@@ -84,6 +89,7 @@ app.use((req,res)=>{
 app.listen(port,()=>{
   
     console.log(`Server is listening on port ${port}`);
-    connectToMongodb()
+    // connectToMongodb()
+    connectUsingMongoose();
 });
 

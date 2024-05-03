@@ -19,10 +19,16 @@ export class CartRepository{
             //get collection
             const collection=db.collection(this.collection);
 
+            //getting the id
+            const cartId=await this.getNextCounterValue(db);
+    
             await collection.updateOne(
-                {_productId:productId,_userId:userId},
-                { $inc: { _quantity: quantity } },
-                {upsert:true}
+                {_productId:new ObjectId(productId),_userId:new ObjectId(userId)},
+                { 
+                   $setOnInsert:{_id:cartId},
+                   $inc: { _quantity: quantity } },
+                {upsert:true},
+             
             )
           
         }
@@ -40,7 +46,8 @@ export class CartRepository{
              //get collection
               const collection=db.collection(this.collection);
 
-              const result=await collection.find({_userId:new ObjectId(userId)}).toArray();
+              const result=await collection.find({_userId: userId}).toArray();
+            
               return result;
         }
         catch(err){
@@ -63,5 +70,16 @@ export class CartRepository{
         catch(err){
             console.log(err);
         }
+    }
+
+    async getNextCounterValue(db){
+       const resultDocument= await db.collection("counter").findOneAndUpdate(
+            {_id:"cartItemId"},
+            {$inc:{value:1}},
+            {returnDocument:"after"});
+
+    
+       return resultDocument.value;
+
     }
 }

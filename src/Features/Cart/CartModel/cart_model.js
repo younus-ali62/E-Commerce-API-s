@@ -4,9 +4,8 @@ import Users from "../../Users/UserModel/user_model.js";
 import ApplicationError from "../../../Error_Handler/error_handler.js";
 export class CartModel {
   constructor( _productId, _userId, _quantity,_id) {
-    this._id = _id;
-    this._productId = new ObjectId(_productId);
-    this._userId = new ObjectId(_userId);
+    this._productId =_productId;
+    this._userId = _userId;
     this._quantity = _quantity;
     this._id=_id;
   }

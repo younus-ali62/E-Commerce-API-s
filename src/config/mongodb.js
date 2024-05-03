@@ -12,15 +12,27 @@ export const connectToMongodb=async()=>{
       .then(client=>{
         newClient=client;
         console.log("Mongodb is connected");
+        createCounter(newClient.db())
       })
       .catch(err=>{
         console.log(err);
       })
 };
 
+
+export const getClient=()=>{
+  return newClient;
+}
 export const getDB=()=>{
     return newClient.db();
 }
 
-
+const createCounter=async (db)=>{
+  
+  //checking counter is exist or not
+  const createCounter=await db.collection("counter").findOne({_id:"cartItemId"});
+  if(!createCounter){
+    await db.collection("counter").insertOne({_id:"cartItemId", value:0});
+  }
+}
 

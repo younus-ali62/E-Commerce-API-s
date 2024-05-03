@@ -41,7 +41,7 @@ export class ProductRepository {
       const db = getDB();
       const collection = db.collection(this.collection);
       const result = await collection.findOne({ _id: new ObjectId(productId) });
-
+      console.log(result);
       return result;
     } catch (err) {
       throw new ApplicationError(
